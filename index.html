@@ -3,22 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Local News Generator</title>
+    <title>News Around You</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <header>
-        <h1>Local News Generator</h1>
-        <div id="locationForm">
-            <input type="text" id="locationInput" placeholder="Enter your location">
-            <button onclick="fetchLocalNews()">Get News</button>
-        </div>
+        <h1>News Around You</h1>
+        <p>Discover the latest news around your area and beyond.</p>
     </header>
-
-    <main id="newsContainer">
-        <!-- News articles will be dynamically added here -->
+    <main>
+        <div id="dataContainer" style="display: none;">
+            <!-- Data from Supabase will be displayed here -->
+        </div>
+        <div class="search">
+            <input type="text" id="locationInput" placeholder="Enter your location">
+            <button onclick="fetchLocalNews()">Search</button>
+        </div>
+        <div id="newsContainer" class="news-container">
+            <!-- News articles will be displayed here -->
+        </div>
     </main>
-
+    <footer>
+        <p>&copy; 2024 News Around You. All rights reserved.</p>
+    </footer>
     <script src="script.js"></script>
-</body>  
-</html> 
+</body>
+</html>

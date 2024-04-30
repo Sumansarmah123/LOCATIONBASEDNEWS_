@@ -1,32 +1,35 @@
-// script.js
+// Initialize Supabase client
+const supabaseUrl = https://whywmpnqnataijixsamh.supabase.co;
+const supabaseKey = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndoeXdtcG5xbmF0YWlqaXhzYW1oIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTQ1MDAyODcsImV4cCI6MjAzMDA3NjI4N30.xQO40QTBHul_Mong4pnl_CCJI1Sn7L28MTL6UINz1UU;
+const supabase = supabase.createClient(supabaseUrl, supabaseKey);
 
-// Function to fetch local news based on user's location
-async function fetchLocalNews() {
-    const locationInput = document.getElementById('locationInput').value;
-    const newsContainer = document.getElementById('newsContainer');
-    
-    // Fetch news data based on location using a news API
-    const apiKey = '4e2abbf6606c402eb6b63268921d0e55'; // Replace 'YOUR_API_KEY' with your actual API key
-    const apiUrl = `https://newsapi.org/v2/everything?q=${locationInput}&apiKey=${apiKey}`;
-
+// Function to fetch data from Supabase and display it
+async function fetchDataFromSupabase() {
     try {
-        const response = await fetch(apiUrl);
-        const data = await response.json();
+        // Fetch data from a table named 'posts'
+        const { data, error } = await supabase.from('posts').select('*');
+        
+        if (error) {
+            console.error('Error fetching data from Supabase:', error.message);
+            return;
+        }
 
-        // Clear previous news articles
-        newsContainer.innerHTML = '';
+        // Display the retrieved data
+        const container = document.getElementById('dataContainer');
+        container.innerHTML = ''; // Clear previous data
 
-        // Display news articles
-        data.articles.forEach(article => {
-            const articleElement = document.createElement('article');
-            articleElement.innerHTML = `
-                <h2>${article.title}</h2>
-                <p>${article.description}</p>
-                <a href="${article.url}" target="_blank">Read more</a>
+        data.forEach(item => {
+            const listItem = document.createElement('div');
+            listItem.innerHTML = `
+                <h3>${item.title}</h3>
+                <p>${item.content}</p>
             `;
-            newsContainer.appendChild(articleElement);
+            container.appendChild(listItem);
         });
     } catch (error) {
-        console.error('Error fetching news:', error);
+        console.error('Error fetching data from Supabase:', error.message);
     }
 }
+
+// Initial data fetch when the page loads
+fetchDataFromSupabase();
